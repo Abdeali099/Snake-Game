@@ -4,7 +4,7 @@
 
 // Dirextion of snake //
 
-let Direction = { x: 0, y: 0 };
+let inputDirection = { x: 0, y: 0 };
 
 // Music varible //
 
@@ -26,22 +26,22 @@ let snakeArray = [
 
 // food co-ordi //
 
-foodLocation={x:17,y:12};
+foodLocation = { x: 17, y: 12 };
 
 // -- Html Elements --- //
 
-let board=document.getElementById('board');
+let board = document.getElementById('board');
 
 
 // ---------------- --------  --------------------- //
 // -------------- Functions --------------- //
 
-function GameStarts(){
+function GameStarts() {
 
     setInterval(() => {
 
         gameEngine();
-        
+
     }, 1000);
 
 }
@@ -51,37 +51,34 @@ function gameEngine() {
     // Part 1 : Updating the sanke Array and Food //
 
     // Part 2 : Displaying the sanke and Food //
-          
-                 // board.innerHTML="";
 
-    snakeArray.forEach( (element,index ) =>
-    {
-    //  console.log(`Element-X : ${element.x} Element-Y : ${element.y} Index : ${index}`); 
-    
-    
+    // board.innerHTML="";
+
+    snakeArray.forEach((element, index) => {
+        //  console.log(`Element-X : ${element.x} Element-Y : ${element.y} Index : ${index}`); 
+
+
         //  Creating and displaying  a Body Of a Snake //
-        let snakeBody=document.createElement('div');
-        snakeBody.style.gridRowStart=element.y;
-        snakeBody.style.gridColumnStart=element.x;
-        snakeBody.classList.add('Snake'); 
+        let snakeBody = document.createElement('div');
+        snakeBody.style.gridRowStart = element.y;
+        snakeBody.style.gridColumnStart = element.x;
+        snakeBody.classList.add('Snake');
 
-        if(index===0)
-        {
+        if (index === 0) {
             snakeBody.classList.add('Head');
         }
-        
-        else
-        {
+
+        else {
             snakeBody.classList.add('Snake');
 
         }
 
-           board.appendChild(snakeBody);
-       
+        board.appendChild(snakeBody);
+
         //  Creating and displaying  a Body Of a Snake //
-        let foodBody=document.createElement('div');
-        foodBody.style.gridRowStart=foodLocation.x;
-        foodBody.style.gridColumnStart=foodLocation.y;
+        let foodBody = document.createElement('div');
+        foodBody.style.gridRowStart = foodLocation.x;
+        foodBody.style.gridColumnStart = foodLocation.y;
         foodBody.classList.add('Food');
         board.appendChild(foodBody);
 
@@ -92,9 +89,58 @@ function gameEngine() {
 // ---------------- --------  --------------------- //
 // ----------------  Main Logic   --------------------- //
 GameStarts();
-
+// gameMusic.play();
 //  If any Key Press Then Start the Game //
 
+window.addEventListener('keydown', (element) => {
+
+
+    switch (element.key) {
+
+        case "ArrowUp":
+
+            moveMusic.play();
+
+            inputDirection.x = 0;
+            inputDirection.y = 1;
+
+            break;
+
+        case "ArrowDown":
+
+            moveMusic.play();
+
+            inputDirection.x = 0;
+            inputDirection.y = -1;
+
+            break;
+
+        case "ArrowLeft":
+
+            moveMusic.play();
+
+            inputDirection.x = -1;
+            inputDirection.y = 0;
+
+            break;
+
+        case "ArrowRight":
+
+            moveMusic.play();
+
+            inputDirection.x = 1;
+            inputDirection.y = 0;
+
+            break;
+
+        default:
+            break;
+    }
+
+
+
+
+});
 
 
 
