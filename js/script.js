@@ -24,6 +24,10 @@ let snakeArray = [
     }
 ];
 
+// score//
+
+let score=0;
+
 // food co-ordi //
 
 foodLocation = { x: 17, y: 12 };
@@ -42,17 +46,61 @@ function GameStarts() {
 
         gameEngine();
 
-    }, 1000);
+    }, 500);
 
+}
+
+function isCollide(sArr)
+{
+    return false;
 }
 
 function gameEngine() {
 
     // Part 1 : Updating the sanke Array and Food //
 
+    // If It Collide //
+    if (isCollide(snakeArray))
+    {
+             gameOverMusic.play();
+             gameMusic.pause();
+             inputDirection = {x:0,y:0};
+             alert("Game Over! Press any Key To  Play Again.");
+             gameMusic.play();
+             score=0;
+    }
+
+    // If eaten Food  : Increment score and gnerate new food//
+
+     if( snakeArray[0].y == foodLocation.y &&  snakeArray[0].x == foodLocation.x)
+     {
+        // Shifting a Head To ahead it shows Body Increament by One piece //
+        snakeArray.unshift({ x: (snakeArray[0].x + inputDirection.x),y:(snakeArray[0].y + inputDirection.y)  });
+
+        // Reset New Location For Food (Random). Genertaing between 2 and 16 (Both Inclusive) //
+        foodLocation={x: Math.floor(Math.random() * (16 - 2 + 1) + 2),y: Math.floor(Math.random() * (16 - 2 + 1) + 2) };
+
+    }
+
+    // ---- Moving The Snake ---  //
+
+    for (let i = snakeArray.length-2; i>=0; i--)
+    {
+        // const element = array[i];
+
+        snakeArray[i+1]={...snakeArray[i]}; // swallow copy 
+        
+        // WE are moving all element to its previous element , starting from second last elemnt //
+    }
+
+    // Move Head to Next  //
+    snakeArray[0].x += inputDirection.x;
+    snakeArray[0].y += inputDirection.y;
+
+
     // Part 2 : Displaying the sanke and Food //
 
-    // board.innerHTML="";
+    board.innerHTML="";
 
     snakeArray.forEach((element, index) => {
         //  console.log(`Element-X : ${element.x} Element-Y : ${element.y} Index : ${index}`); 
@@ -102,7 +150,7 @@ window.addEventListener('keydown', (element) => {
             moveMusic.play();
 
             inputDirection.x = 0;
-            inputDirection.y = 1;
+            inputDirection.y = -1;
 
             break;
 
@@ -111,7 +159,7 @@ window.addEventListener('keydown', (element) => {
             moveMusic.play();
 
             inputDirection.x = 0;
-            inputDirection.y = -1;
+            inputDirection.y = 1;
 
             break;
 
