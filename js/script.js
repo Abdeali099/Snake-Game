@@ -31,6 +31,10 @@ let score = 0;
 // -- Html Elements --- //
 let board = document.getElementById('board');
 
+// score element
+normScore = document.getElementById('nrmlScore');
+highScoreElement = document.getElementById('highScore');
+
 
 // ---------------- --------  --------------------- //
 // -------------- Functions --------------- //
@@ -63,46 +67,42 @@ function Main(currentTime) {
 
 }
 
-function isCollide(snake) 
-{
+function isCollide(snake) {
     // Two Possibility  : (1) Bump Into Self (2) Hit With Borders
 
     // --- Bump into self : Head Location and One Body Elemenr Location will be same  --- //
 
-    for (let i = 1; i < snake.length; i++) 
-    {
-            if (snake[0].x===snake[i].x && snake[0].y===snake[i].y)
-            { 
-                 return true;
-                
-            }      
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+            return true;
+
+        }
     }
 
     // --- Reach to Border --- //
 
     //  Maximum X,Y : 18 , Minimum X,y : 1
-    if ( (snake[0].x<=1 || snake[0].x>=18 ) || (snake[0].y<=1 || snake[0].y>=18))
-    {
-                return true;
+    if ((snake[0].x <= 1 || snake[0].x >= 18) || (snake[0].y <= 1 || snake[0].y >= 18)) {
+        return true;
     }
-    
+
     return false;
 }
 
 function gameEngine() {
-// console.log( `X:  ${snakeArray[0].x}  , Y : ${snakeArray[0].y}`);
+    // console.log( `X:  ${snakeArray[0].x}  , Y : ${snakeArray[0].y}`);
     // Part 1 : Updating the sanke Array and Food //
 
     // If It Collide //
-    if (isCollide(snakeArray)) 
-    {
+    if (isCollide(snakeArray)) {
         gameOverMusic.play();
         // gameMusic.pause();
         inputDirection = { x: 0, y: 0 };
         alert("Game Over! Press any Key To  Play Again.");
-        snakeArray = [{x: 13, y: 15}]; /* Imprtant!  */
+        snakeArray = [{ x: 13, y: 15 }]; /* Imprtant!  */
         // gameMusic.play();
-         score = 0;
+        score = 00;
+        normScore.innerHTML = score;
     }
 
     // If eaten Food  : Increment score and regenerate new food//
@@ -110,7 +110,15 @@ function gameEngine() {
     if (snakeArray[0].y === foodLocation.y && snakeArray[0].x === foodLocation.x) {
         // console.log("Ya working!");
 
-        
+        score += 1;
+        normScore.innerHTML = score;
+
+
+        if(score>hiscoreval){
+            hiscoreval = score;
+            localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
+            highScoreElement.innerHTML =  hiscoreval;
+        }
 
         foodMusic.play();
         // Shifting a Head To ahead it shows Body Increament by One piece //
@@ -162,7 +170,7 @@ function gameEngine() {
         board.appendChild(snakeBody);
 
     });
-    
+
     //  Creating and displaying  a Body Of a Snake //
     let foodBody = document.createElement('div');
     foodBody.style.gridRowStart = foodLocation.y;/* Made Biggest Mistake Here comes y not x */
@@ -175,10 +183,36 @@ function gameEngine() {
 // ----------------  Main Logic   --------------------- //
 // GameStarts();
 
+// -------- Local Storage For High Score ------------- //
+
+// let HighScore = localStorage.getItem("HighScore");
+
+// if (HighScore==null)
+// {
+//           highscrvalue=0;
+//          localStorage.setItem("HighScore",JSON.stringify(highscrvalue));
+// }
+
+// else
+// {
+//     highscrvalue= JSON.parse(HighScore);
+//     highScoreElement.innerHTML=HighScore;
+// }
+
+let hiscore = localStorage.getItem("hiscore");
+if(hiscore === null){
+    hiscoreval = 0;
+    localStorage.setItem("hiscore", JSON.stringify(hiscoreval))
+}
+else{
+    hiscoreval = JSON.parse(hiscore);
+    highScoreElement.innerHTML = hiscore;
+}
+
+
+
 window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
 // gameMusic.play();
-
-
 
 //  If any Key Press Then Start the Game //
 window.addEventListener('keydown', (element) => {
