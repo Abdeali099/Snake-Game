@@ -13,11 +13,6 @@ const foodMusic = new Audio('../music/food.mp3')
 const moveMusic = new Audio('../music/move.mp3')
 const gameOverMusic = new Audio('../music/over.mp3')
 
-// contolling frame speed //
-
-let speed = 2;
-let lastPaintTime = 0;
-
 // -- Snake Body -- //
 
 let snakeArray = [
@@ -28,6 +23,10 @@ let snakeArray = [
         y: 15
     }
 ];
+
+// food co-ordi //
+
+foodLocation={x:17,y:12};
 
 // -- Html Elements --- //
 
@@ -52,31 +51,88 @@ function gameEngine() {
     // Part 1 : Updating the sanke Array and Food //
 
     // Part 2 : Displaying the sanke and Food //
-    board.innerHTML="";
+          
+                 // board.innerHTML="";
 
     snakeArray.forEach( (element,index ) =>
     {
     //  console.log(`Element-X : ${element.x} Element-Y : ${element.y} Index : ${index}`); 
     
     
-        //  Creating a Body Of a Snake //
+        //  Creating and displaying  a Body Of a Snake //
         let snakeBody=document.createElement('div');
         snakeBody.style.gridRowStart=element.y;
         snakeBody.style.gridColumnStart=element.x;
-        // snakeBody.style.width="20px";
-        // snakeBody.style.height="20px";
-        // snakeBody.style.background="red";
+        snakeBody.classList.add('Snake'); 
 
+        if(index===0)
+        {
+            snakeBody.classList.add('Head');
+        }
+        
+        else
+        {
+            snakeBody.classList.add('Snake');
+
+        }
+
+           board.appendChild(snakeBody);
+       
+        //  Creating and displaying  a Body Of a Snake //
+        let foodBody=document.createElement('div');
+        foodBody.style.gridRowStart=foodLocation.x;
+        foodBody.style.gridColumnStart=foodLocation.y;
+        foodBody.classList.add('Food');
+        board.appendChild(foodBody);
 
     });
 
 }
 
 // ---------------- --------  --------------------- //
-
+// ----------------  Main Logic   --------------------- //
 GameStarts();
 
+//  If any Key Press Then Start the Game //
+
+
+
+
+
+// ---------------- --------  --------------------- //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // --------------  Extra --------------- //
+
+/* contolling frame speed //
+let speed = 2;
+let lastPaintTime = 0;
+*/
 
 /*
 window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.

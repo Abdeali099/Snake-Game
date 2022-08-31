@@ -46,9 +46,14 @@
 
 /* ------------ Styling in Snake  ------------ */
 
+.Snake{
+    background-color: yellow;
+}
+
 .Head{
     background-color: red;
 }
+
 
 .Food{
     background-color: blue;
