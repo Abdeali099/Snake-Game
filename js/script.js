@@ -7,7 +7,7 @@ let inputDirection = { x: 0, y: 0 };
 const gameMusic = new Audio('../music/music.mp3')
 const foodMusic = new Audio('../music/food.mp3')
 const moveMusic = new Audio('../music/move.mp3')
-const gameOverMusic = new Audio('../music/over.mp3')
+const gameOverMusic = new Audio('../music/gameover.mp3')
 
 // -- Snake Body -- //
 let snakeArray = [
@@ -63,7 +63,29 @@ function Main(currentTime) {
 
 }
 
-function isCollide(sArr) {
+function isCollide(snake) 
+{
+    // Two Possibility  : (1) Bump Into Self (2) Hit With Borders
+
+    // --- Bump into self : Head Location and One Body Elemenr Location will be same  --- //
+
+    for (let i = 1; i < snake.length; i++) 
+    {
+            if (snake[0].x===snake[i].x && snake[0].y===snake[i].y)
+            { 
+                 return true;
+                
+            }      
+    }
+
+    // --- Reach to Border --- //
+
+    //  Maximum X,Y : 18 , Minimum X,y : 1
+    if ( (snake[0].x<=1 || snake[0].x>=18 ) || (snake[0].y<=1 || snake[0].y>=18))
+    {
+                return true;
+    }
+    
     return false;
 }
 
@@ -72,12 +94,14 @@ function gameEngine() {
     // Part 1 : Updating the sanke Array and Food //
 
     // If It Collide //
-    if (isCollide(snakeArray)) {
+    if (isCollide(snakeArray)) 
+    {
         gameOverMusic.play();
-        gameMusic.pause();
+        // gameMusic.pause();
         inputDirection = { x: 0, y: 0 };
         alert("Game Over! Press any Key To  Play Again.");
-        gameMusic.play();
+        snakeArray = [{x: 13, y: 15}]; /* Imprtant!  */
+        // gameMusic.play();
         score = 0;
     }
 
@@ -148,9 +172,9 @@ function gameEngine() {
 // ---------------- --------  --------------------- //
 // ----------------  Main Logic   --------------------- //
 // GameStarts();
-// gameMusic.play();
 
 window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
+// gameMusic.play();
 
 
 
