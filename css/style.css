@@ -46,17 +46,27 @@
 
 /* ------------ Styling in Snake  ------------ */
 
+
 .Snake{
-    background-color: yellow;
+    /* background-color: yellow; */
+    background: linear-gradient(#5572b3,#da69d7);
+    border: 0.25vmin solid white;
+    border-radius: 20px;
 }
 
 .Head{
-    background-color: red;
+      /* background-color: red; */
+      background: linear-gradient(#a12c5f,#ef2727);
+      border: 0.25vmin solid black;
+      border-radius: 15px;
+      /* transform: scale(1.1); */
 }
 
 
 .Food{
-    background-color: blue;
+        background: linear-gradient(#3dcad5d6,#4753e3);
+        border: 0.25vmin solid rgb(25 0 255);
+        border-radius: 100%;
 }
 
 /* ------------ Utilitie classes ------------ */

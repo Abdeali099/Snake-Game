@@ -102,13 +102,15 @@ function gameEngine() {
         alert("Game Over! Press any Key To  Play Again.");
         snakeArray = [{x: 13, y: 15}]; /* Imprtant!  */
         // gameMusic.play();
-        score = 0;
+         score = 0;
     }
 
     // If eaten Food  : Increment score and regenerate new food//
 
     if (snakeArray[0].y === foodLocation.y && snakeArray[0].x === foodLocation.x) {
         // console.log("Ya working!");
+
+        
 
         foodMusic.play();
         // Shifting a Head To ahead it shows Body Increament by One piece //
@@ -146,9 +148,9 @@ function gameEngine() {
         let snakeBody = document.createElement('div');
         snakeBody.style.gridRowStart = element.y;
         snakeBody.style.gridColumnStart = element.x;
-        snakeBody.classList.add('Snake');
+        // snakeBody.classList.add('Snake');
 
-        if (index === 0) {
+        if (index == 0) {
             snakeBody.classList.add('Head');
         }
 
