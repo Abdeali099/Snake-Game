@@ -1,22 +1,16 @@
-// console.log("Yes! Atteched");
-
 // ---------------- Varible Zone --------------------- //
 
-// Dirextion of snake //
-
+// Step  of snake to Move at Particular Diection  //
 let inputDirection = { x: 0, y: 0 };
 
 // Music varible //
-
 const gameMusic = new Audio('../music/music.mp3')
 const foodMusic = new Audio('../music/food.mp3')
 const moveMusic = new Audio('../music/move.mp3')
 const gameOverMusic = new Audio('../music/over.mp3')
 
 // -- Snake Body -- //
-
 let snakeArray = [
-
     // Head //
     {
         x: 13,
@@ -24,72 +18,90 @@ let snakeArray = [
     }
 ];
 
-// score//
-
-let score=0;
-
 // food co-ordi //
+foodLocation = { x: 6, y: 7 };
 
-foodLocation = { x: 17, y: 12 };
+// contolling frame speed 
+let speed = 5;
+let lastPaintTime = 0;
+
+// score//
+let score = 0;
 
 // -- Html Elements --- //
-
 let board = document.getElementById('board');
 
 
 // ---------------- --------  --------------------- //
 // -------------- Functions --------------- //
 
-function GameStarts() {
+// function GameStarts() {
 
-    setInterval(() => {
+//     setInterval(() => {
 
-        gameEngine();
+//         gameEngine();
 
-    }, 500);
+//     }, 500);
+
+// }
+
+function Main(currentTime) {
+    // Recalling again //
+
+    window.requestAnimationFrame(Main);
+
+    // console.log("Current : -  " + currentTime);
+    // console.log("LAst : -  " + lastPaintTime);
+
+    if ((currentTime - lastPaintTime) / 1000 < (1 / speed)) {
+        return;
+    }
+
+    lastPaintTime = currentTime;
+
+    gameEngine();
 
 }
 
-function isCollide(sArr)
-{
+function isCollide(sArr) {
     return false;
 }
 
 function gameEngine() {
-
+// console.log( `X:  ${snakeArray[0].x}  , Y : ${snakeArray[0].y}`);
     // Part 1 : Updating the sanke Array and Food //
 
     // If It Collide //
-    if (isCollide(snakeArray))
-    {
-             gameOverMusic.play();
-             gameMusic.pause();
-             inputDirection = {x:0,y:0};
-             alert("Game Over! Press any Key To  Play Again.");
-             gameMusic.play();
-             score=0;
+    if (isCollide(snakeArray)) {
+        gameOverMusic.play();
+        gameMusic.pause();
+        inputDirection = { x: 0, y: 0 };
+        alert("Game Over! Press any Key To  Play Again.");
+        gameMusic.play();
+        score = 0;
     }
 
-    // If eaten Food  : Increment score and gnerate new food//
+    // If eaten Food  : Increment score and regenerate new food//
 
-     if( snakeArray[0].y == foodLocation.y &&  snakeArray[0].x == foodLocation.x)
-     {
+    if (snakeArray[0].y === foodLocation.y && snakeArray[0].x === foodLocation.x) {
+        // console.log("Ya working!");
+
+        foodMusic.play();
         // Shifting a Head To ahead it shows Body Increament by One piece //
-        snakeArray.unshift({ x: (snakeArray[0].x + inputDirection.x),y:(snakeArray[0].y + inputDirection.y)  });
+        snakeArray.unshift({ x: snakeArray[0].x + inputDirection.x, y: snakeArray[0].y + inputDirection.y });
 
         // Reset New Location For Food (Random). Genertaing between 2 and 16 (Both Inclusive) //
-        foodLocation={x: Math.floor(Math.random() * (16 - 2 + 1) + 2),y: Math.floor(Math.random() * (16 - 2 + 1) + 2) };
-
+        let a = 2, b = 16;
+        foodLocation = { x: Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
     }
 
     // ---- Moving The Snake ---  //
 
-    for (let i = snakeArray.length-2; i>=0; i--)
-    {
+    for (let i = snakeArray.length - 2; i >= 0; i--) {
         // const element = array[i];
 
-        snakeArray[i+1]={...snakeArray[i]}; // swallow copy 
-        
+        snakeArray[i + 1] = { ...snakeArray[i] }; // swallow copy 
+
         // WE are moving all element to its previous element , starting from second last elemnt //
     }
 
@@ -100,7 +112,7 @@ function gameEngine() {
 
     // Part 2 : Displaying the sanke and Food //
 
-    board.innerHTML="";
+    board.innerHTML = "";
 
     snakeArray.forEach((element, index) => {
         //  console.log(`Element-X : ${element.x} Element-Y : ${element.y} Index : ${index}`); 
@@ -123,24 +135,29 @@ function gameEngine() {
 
         board.appendChild(snakeBody);
 
-        //  Creating and displaying  a Body Of a Snake //
-        let foodBody = document.createElement('div');
-        foodBody.style.gridRowStart = foodLocation.x;
-        foodBody.style.gridColumnStart = foodLocation.y;
-        foodBody.classList.add('Food');
-        board.appendChild(foodBody);
-
     });
-
+    
+    //  Creating and displaying  a Body Of a Snake //
+    let foodBody = document.createElement('div');
+    foodBody.style.gridRowStart = foodLocation.y;/* Made Biggest Mistake Here comes y not x */
+    foodBody.style.gridColumnStart = foodLocation.x;
+    foodBody.classList.add('Food');
+    board.appendChild(foodBody);
 }
 
 // ---------------- --------  --------------------- //
 // ----------------  Main Logic   --------------------- //
-GameStarts();
+// GameStarts();
 // gameMusic.play();
-//  If any Key Press Then Start the Game //
 
+window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
+
+
+
+//  If any Key Press Then Start the Game //
 window.addEventListener('keydown', (element) => {
+
+    // inputDirection = {x: 0, y: 1} // Start the game
 
 
     switch (element.key) {
@@ -194,7 +211,6 @@ window.addEventListener('keydown', (element) => {
 
 
 // ---------------- --------  --------------------- //
-
 
 
 
