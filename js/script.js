@@ -28,6 +28,8 @@ let lastPaintTime = 0;
 // score//
 let score = 0;
 
+let flag = true;
+
 // -- Html Elements --- //
 let board = document.getElementById('board');
 
@@ -35,6 +37,18 @@ let board = document.getElementById('board');
 normScore = document.getElementById('nrmlScore');
 highScoreElement = document.getElementById('highScore');
 
+// ------- Accsess All Popup element --------- //
+let popContainer = document.getElementById("popup");
+
+let popStatus = document.getElementById("pop-status");
+
+// let popAnswer = document.getElementById("pop-answer");
+
+let popCorrect = document.getElementById("pop-ans");
+
+let popScore = document.getElementById("pop-score");
+
+let btnOk = document.getElementById("ok");
 
 // ---------------- --------  --------------------- //
 // -------------- Functions --------------- //
@@ -98,12 +112,20 @@ function gameEngine() {
         gameOverMusic.play();
         // gameMusic.pause();
         inputDirection = { x: 0, y: 0 };
-        alert("Game Over! Press any Key To  Play Again.");
+        // -- Open Popup --  //
+        popScore.innerText = score;
+        popContainer.classList.add("Open-Popup");
+        flag = false;
+
+
         snakeArray = [{ x: 13, y: 15 }]; /* Imprtant!  */
         // gameMusic.play();
         score = 00;
         normScore.innerHTML = score;
+
     }
+
+    // ------------ Stop Exexcution when Popup is shown ----------- //
 
     // If eaten Food  : Increment score and regenerate new food//
 
@@ -114,10 +136,10 @@ function gameEngine() {
         normScore.innerHTML = score;
 
 
-        if(score>hiscoreval){
+        if (score > hiscoreval) {
             hiscoreval = score;
             localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
-            highScoreElement.innerHTML =  hiscoreval;
+            highScoreElement.innerHTML = hiscoreval;
         }
 
         foodMusic.play();
@@ -185,31 +207,16 @@ function gameEngine() {
 
 // -------- Local Storage For High Score ------------- //
 
-// let HighScore = localStorage.getItem("HighScore");
-
-// if (HighScore==null)
-// {
-//           highscrvalue=0;
-//          localStorage.setItem("HighScore",JSON.stringify(highscrvalue));
-// }
-
-// else
-// {
-//     highscrvalue= JSON.parse(HighScore);
-//     highScoreElement.innerHTML=HighScore;
-// }
 
 let hiscore = localStorage.getItem("hiscore");
-if(hiscore === null){
+if (hiscore === null) {
     hiscoreval = 0;
     localStorage.setItem("hiscore", JSON.stringify(hiscoreval))
 }
-else{
+else {
     hiscoreval = JSON.parse(hiscore);
     highScoreElement.innerHTML = hiscore;
 }
-
-
 
 window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
 // gameMusic.play();
@@ -219,47 +226,50 @@ window.addEventListener('keydown', (element) => {
 
     // inputDirection = {x: 0, y: 1} // Start the game
 
+    if (flag == true) {
 
-    switch (element.key) {
 
-        case "ArrowUp":
+        switch (element.key) {
 
-            moveMusic.play();
+            case "ArrowUp":
 
-            inputDirection.x = 0;
-            inputDirection.y = -1;
+                moveMusic.play();
 
-            break;
+                inputDirection.x = 0;
+                inputDirection.y = -1;
 
-        case "ArrowDown":
+                break;
 
-            moveMusic.play();
+            case "ArrowDown":
 
-            inputDirection.x = 0;
-            inputDirection.y = 1;
+                moveMusic.play();
 
-            break;
+                inputDirection.x = 0;
+                inputDirection.y = 1;
 
-        case "ArrowLeft":
+                break;
 
-            moveMusic.play();
+            case "ArrowLeft":
 
-            inputDirection.x = -1;
-            inputDirection.y = 0;
+                moveMusic.play();
 
-            break;
+                inputDirection.x = -1;
+                inputDirection.y = 0;
 
-        case "ArrowRight":
+                break;
 
-            moveMusic.play();
+            case "ArrowRight":
 
-            inputDirection.x = 1;
-            inputDirection.y = 0;
+                moveMusic.play();
 
-            break;
+                inputDirection.x = 1;
+                inputDirection.y = 0;
 
-        default:
-            break;
+                break;
+
+            default:
+                break;
+        }
     }
 
 
@@ -267,6 +277,16 @@ window.addEventListener('keydown', (element) => {
 
 });
 
+// ---------- Close popup ---------- //
+
+const Close = () => {
+
+    popContainer.classList.remove("Open-Popup");
+    flag = true;
+    // Pop.classList.add("Close-Popup")
+};
+
+btnOk.addEventListener('click', Close);
 
 
 
