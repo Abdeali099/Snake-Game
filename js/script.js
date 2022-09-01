@@ -21,17 +21,13 @@ let snakeArray = [
 // food co-ordi //
 foodLocation = { x: 6, y: 7 };
 
-// contolling frame speed 
-let speed = 5;
-let lastPaintTime = 0;
-
 // score//
 let score = 0;
 
-// for popuo
+// for popuo //
 let flag = true;
 
-// for snake body
+// for snake body//
 let foodBody,snakeBody;
 let headDeg=0,bodyDeg=0;
 
@@ -58,33 +54,16 @@ let btnOk = document.getElementById("ok");
 // ---------------- --------  --------------------- //
 // -------------- Functions --------------- //
 
-function GameStarts() {
+function GameStarts() {    
 
     setInterval(() => {
 
         gameEngine();
         
         }, 200);
+
         
 }
-
-// function Main(currentTime) {
-//     // Recalling again //
-
-//     window.requestAnimationFrame(Main);
-
-//     // console.log("Current : -  " + currentTime);
-//     // console.log("LAst : -  " + lastPaintTime);
-
-//     if ((currentTime - lastPaintTime) / 1000 < (1 / speed)) {
-//         return;
-//     }
-
-//     lastPaintTime = currentTime;
-
-//     gameEngine();
-
-// }
 
 function isCollide(snake) {
     // Two Possibility  : (1) Bump Into Self (2) Hit With Borders
@@ -109,14 +88,21 @@ function isCollide(snake) {
 }
 
 function gameEngine() {
-    // console.log( `X:  ${snakeArray[0].x}  , Y : ${snakeArray[0].y}`);
     // Part 1 : Updating the sanke Array and Food //
+
+    if (flag==true)
+    {
+        gameMusic.play();
+        
+    }
+
 
     // If It Collide //
     if (isCollide(snakeArray)) {
         gameOverMusic.play();
-        // gameMusic.pause();
+        gameMusic.pause();
         inputDirection = { x: 0, y: 0 };
+
         // -- Open Popup --  //
         popScore.innerText = score;
         popContainer.classList.add("Open-Popup");
@@ -124,7 +110,6 @@ function gameEngine() {
 
 
         snakeArray = [{ x: 13, y: 15 }]; /* Imprtant!  */
-        // gameMusic.play();
         score = 00;
         normScore.innerHTML = score;
 
@@ -226,13 +211,10 @@ else {
     highScoreElement.innerHTML = hiscore;
 }
 
-// window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
-// gameMusic.play();
+
 
 //  If any Key Press Then Start the Game //
 window.addEventListener('keydown', (element) => {
-
-    // inputDirection = {x: 0, y: 1} // Start the game
 
     if (flag == true) {
 
@@ -296,39 +278,13 @@ const Close = () => {
 
     popContainer.classList.remove("Open-Popup");
     flag = true;
+    gameMusic.play();
     // Pop.classList.add("Close-Popup")
 };
 
 btnOk.addEventListener('click', Close);
 
-
-
 // ---------------- --------  --------------------- //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // --------------  Extra --------------- //
 
