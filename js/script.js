@@ -28,7 +28,12 @@ let lastPaintTime = 0;
 // score//
 let score = 0;
 
+// for popuo
 let flag = true;
+
+// for snake body
+let foodBody,snakeBody;
+let headDeg=0,bodyDeg=0;
 
 // -- Html Elements --- //
 let board = document.getElementById('board');
@@ -53,33 +58,33 @@ let btnOk = document.getElementById("ok");
 // ---------------- --------  --------------------- //
 // -------------- Functions --------------- //
 
-// function GameStarts() {
+function GameStarts() {
 
-//     setInterval(() => {
+    setInterval(() => {
 
-//         gameEngine();
+        gameEngine();
+        
+        }, 200);
+        
+}
 
-//     }, 500);
+// function Main(currentTime) {
+//     // Recalling again //
+
+//     window.requestAnimationFrame(Main);
+
+//     // console.log("Current : -  " + currentTime);
+//     // console.log("LAst : -  " + lastPaintTime);
+
+//     if ((currentTime - lastPaintTime) / 1000 < (1 / speed)) {
+//         return;
+//     }
+
+//     lastPaintTime = currentTime;
+
+//     gameEngine();
 
 // }
-
-function Main(currentTime) {
-    // Recalling again //
-
-    window.requestAnimationFrame(Main);
-
-    // console.log("Current : -  " + currentTime);
-    // console.log("LAst : -  " + lastPaintTime);
-
-    if ((currentTime - lastPaintTime) / 1000 < (1 / speed)) {
-        return;
-    }
-
-    lastPaintTime = currentTime;
-
-    gameEngine();
-
-}
 
 function isCollide(snake) {
     // Two Possibility  : (1) Bump Into Self (2) Hit With Borders
@@ -175,18 +180,21 @@ function gameEngine() {
 
 
         //  Creating and displaying  a Body Of a Snake //
-        let snakeBody = document.createElement('div');
+        snakeBody = document.createElement('div');
         snakeBody.style.gridRowStart = element.y;
         snakeBody.style.gridColumnStart = element.x;
-        // snakeBody.classList.add('Snake');
 
+        
+        // snakeBody.classList.add('Snake');
+        
         if (index == 0) {
             snakeBody.classList.add('Head');
+            snakeBody.style.transform=`rotate(${headDeg}deg)`;
         }
 
         else {
             snakeBody.classList.add('Snake');
-
+            snakeBody.style.transform=`rotate(${bodyDeg}deg)`;
         }
 
         board.appendChild(snakeBody);
@@ -194,7 +202,7 @@ function gameEngine() {
     });
 
     //  Creating and displaying  a Body Of a Snake //
-    let foodBody = document.createElement('div');
+    foodBody = document.createElement('div');
     foodBody.style.gridRowStart = foodLocation.y;/* Made Biggest Mistake Here comes y not x */
     foodBody.style.gridColumnStart = foodLocation.x;
     foodBody.classList.add('Food');
@@ -203,7 +211,7 @@ function gameEngine() {
 
 // ---------------- --------  --------------------- //
 // ----------------  Main Logic   --------------------- //
-// GameStarts();
+GameStarts();
 
 // -------- Local Storage For High Score ------------- //
 
@@ -218,7 +226,7 @@ else {
     highScoreElement.innerHTML = hiscore;
 }
 
-window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
+// window.requestAnimationFrame(Main); // When We Use Animation Then Use This Method rather than setInterval.
 // gameMusic.play();
 
 //  If any Key Press Then Start the Game //
@@ -237,7 +245,8 @@ window.addEventListener('keydown', (element) => {
 
                 inputDirection.x = 0;
                 inputDirection.y = -1;
-
+                headDeg=180;
+                bodyDeg=90;
                 break;
 
             case "ArrowDown":
@@ -246,7 +255,8 @@ window.addEventListener('keydown', (element) => {
 
                 inputDirection.x = 0;
                 inputDirection.y = 1;
-
+                headDeg=0;
+                bodyDeg=90;
                 break;
 
             case "ArrowLeft":
@@ -255,7 +265,8 @@ window.addEventListener('keydown', (element) => {
 
                 inputDirection.x = -1;
                 inputDirection.y = 0;
-
+                headDeg=90;
+                bodyDeg=0;
                 break;
 
             case "ArrowRight":
@@ -264,6 +275,8 @@ window.addEventListener('keydown', (element) => {
 
                 inputDirection.x = 1;
                 inputDirection.y = 0;
+                headDeg=270;
+                bodyDeg=0;
 
                 break;
 
